@@ -1,0 +1,290 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 1. CAMBIA ESTE TÍTULO PARA LA PESTAÑA DEL NAVEGADOR -->
+    <title>Creciendo Sanos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+        }
+        .text-dark-blue { color: #073B4C; }
+        .bg-custom-blue { background-color: #118AB2; }
+        .bg-custom-green { background-color: #06D6A0; }
+        .bg-custom-yellow { background-color: #FFD166; }
+        .bg-custom-pink { background-color: #FF6B6B; }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 1.25rem;
+            transform: translateX(-50%);
+            width: 2px;
+            height: calc(100% - 1.25rem);
+            background-color: #118AB2;
+        }
+        .timeline-item:last-child::before {
+            display: none;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        /* Estilos de impresión nativa */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: #ffffff !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+            }
+            main {
+                padding: 1rem !important;
+            }
+            .shadow-md, .shadow-lg, .shadow-sm {
+                box-shadow: none !important;
+            }
+            .bg-white, .bg-gray-100 {
+                background-color: #ffffff !important;
+            }
+            .footer-nav {
+                display: none;
+            }
+            section {
+                page-break-before: always;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 1rem !important;
+            }
+            .flex {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+            }
+            .chart-container {
+                page-break-inside: avoid;
+                margin-top: 1rem;
+            }
+            h1, h2, h3, p {
+                padding: 0.5rem 0;
+            }
+            .md\:text-right {
+                text-align: right;
+            }
+            .timeline-item::before {
+                display: none;
+            }
+            .md\:grid-cols-2 {
+                grid-template-columns: 1fr;
+            }
+            #plan .md\:grid-cols-2 > div {
+                grid-column: span 1 / span 1 !important;
+                margin-bottom: 1rem;
+            }
+            #plan .relative {
+                position: static;
+            }
+            #plan .hidden.md\:block {
+                display: none !important;
+            }
+        }
+        /* Estilos para ocultar elementos al generar el PDF */
+        .no-pdf {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="text-dark-blue">
+
+    <header class="bg-white py-8 px-4 shadow-md text-center">
+        <div class="w-full max-w-5xl mx-auto">
+            <!-- 2. CAMBIA ESTE TÍTULO PARA LA PESTAÑA DEL NAVEGADOR -->
+            <h1 class="text-4xl md:text-5xl font-black tracking-tight text-dark-blue">Creciendo Sanos</h1>
+            <p class="mt-2 text-lg md:text-xl text-gray-600">Programa de Educación Nutricional Escolar para el Municipio Santa Rita</p>
+        </div>
+        <div class="mt-6">
+            <a href="PROGRAMA _Creciendo Sanos_.pdf" download="PROGRAMA _Creciendo Sanos_.pdf" class="bg-custom-blue text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-opacity-90 transition-colors duration-200 inline-block">
+                <i class="fas fa-download mr-2"></i> Descargar
+            </a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8" id="contentToSave">
+
+        <section id="challenge" class="my-12 text-center">
+            <h2 class="text-3xl font-bold mb-4">El Desafío Nutricional: Un Reto Global y Local</h2>
+            <p class="max-w-3xl mx-auto text-gray-700 mb-8">La malnutrición es un problema complejo que afecta a millones de niños y adolescentes en todo el mundo, impactando su desarrollo y futuro. En nuestra región y país, enfrentamos una doble carga que requiere una acción inmediata y focalizada. A nivel local, el desafío se agrava por la <strong>ausencia de un programa de educación nutricional estructurado</strong> que atienda a las necesidades de los estudiantes del municipio.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold text-custom-blue mb-2">La Doble Carga de la Malnutrición</h3>
+                    <p class="text-gray-600 mb-4">En América Latina y el Caribe, el sobrepeso coexiste con la desnutrición, creando un desafío complejo para la salud pública. (3, 4)</p>
+                    <div class="chart-container">
+                        <canvas id="malnutritionChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg grid grid-cols-1 gap-6">
+                    <div>
+                        <p class="text-5xl font-black text-custom-pink">49 millones</p>
+                        <p class="text-lg font-semibold mt-1">De niños y adolescentes (5-19 años) con sobrepeso en América Latina y el Caribe. (3)</p>
+                    </div>
+                    <div>
+                        <p class="text-5xl font-black text-custom-yellow">2.300 millones</p>
+                        <p class="text-lg font-semibold mt-1">De personas en el mundo que padecen inseguridad alimentaria. (1)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solution" class="my-16 bg-white p-8 rounded-lg shadow-lg text-center">
+            <h2 class="text-3xl font-bold mb-4">Nuestra Solución: Una Alianza Estratégica</h2>
+            <p class="max-w-3xl mx-auto text-gray-700 mb-8">"Creciendo Sanos" es una intervención proactiva que une al sistema de salud y la educación. que promueve educacion nutricional estructurada bajo diagnóstico previo y propósito específico que permitiera evaluar su impacto.</p>
+            <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8 text-lg font-semibold">
+                <div class="p-4 bg-gray-100 rounded-lg shadow-sm">
+                    <p>Unidad de Nutrición IVSS Santa Rita</p>
+                </div>
+                <span class="text-2xl font-bold text-custom-blue">→</span>
+                <div class="p-4 bg-gray-100 rounded-lg shadow-sm">
+                    <p>Programa "Salud va a tu Escuela"</p>
+                </div>
+                 <span class="text-2xl font-bold text-custom-blue">→</span>
+                <div class="p-4 bg-gray-100 rounded-lg shadow-sm">
+                    <p>Escuelas y Comunidad</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="objectives" class="my-16">
+            <h2 class="text-3xl font-bold text-center mb-8">¿Qué Queremos Lograr?</h2>
+             <p class="max-w-3xl mx-auto text-center text-gray-700 mb-8">Nuestros objetivos están diseñados para generar un impacto medible y sostenible en la salud de la comunidad estudiantil, empoderando a todos los actores involucrados en el proceso.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 text-center">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <p class="text-5xl mb-3"><i class="fas fa-search"></i></p>
+                    <h3 class="font-bold text-lg">Evaluar</h3>
+                    <p class="text-gray-600 text-sm">El estado nutricional y hábitos alimentarios de los estudiantes.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <p class="text-5xl mb-3"><i class="fas fa-book"></i></p>
+                    <h3 class="font-bold text-lg">Capacitar</h3>
+                    <p class="text-gray-600 text-sm">A docentes para que sean multiplicadores del conocimiento.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <p class="text-5xl mb-3"><i class="fas fa-seedling"></i></p>
+                    <h3 class="font-bold text-lg">Fomentar</h3>
+                    <p class="text-gray-600 text-sm">La participación activa de los padres y la comunidad.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <p class="text-5xl mb-3"><i class="fas fa-screwdriver-wrench"></i></p>
+                    <h3 class="font-bold text-lg">Implementar</h3>
+                    <p class="text-600 text-sm">Actividades prácticas e interactivas en el aula y el hogar.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <p class="text-5xl mb-3"><i class="fas fa-chart-line"></i></p>
+                    <h3 class="font-bold text-lg">Monitorear</h3>
+                    <p class="text-gray-600 text-sm">El impacto del programa para asegurar su efectividad.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="plan" class="my-16">
+            <h2 class="text-3xl font-bold text-center mb-12">Nuestro Plan de Acción</h2>
+            <div class="relative max-w-4xl mx-auto">
+                <div class="hidden md:block absolute w-0.5 h-full bg-custom-blue left-1/2 transform -translate-x-1/2"></div>
+                <div class="space-y-12 md:space-y-0">
+                    <div class="md:grid md:grid-cols-2 md:gap-x-12 relative">
+                        <div class="md:text-right">
+                            <div class="bg-custom-blue w-12 h-12 rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto md:mr-0 md:ml-auto mb-4">1</div>
+                            <h3 class="text-xl font-bold">Fase 1: Diagnóstico y Contacto</h3>
+                            <p class="text-gray-700 mt-2">Coordinación institucional y evaluación inicial para entender las necesidades específicas de la comunidad escolar.</p>
+                        </div>
+                        <div></div>
+                    </div>
+                    <div class="md:grid md:grid-cols-2 md:gap-x-12 relative">
+                        <div></div>
+                        <div>
+                            <div class="bg-custom-green w-12 h-12 rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto md:ml-0 md:mr-auto mb-4">2</div>
+                            <h3 class="text-xl font-bold">Fase 2: Diseño del Programa</h3>
+                            <p class="text-gray-700 mt-2">Creación de contenidos y materiales didácticos adaptados a cada nivel educativo, desde preescolar hasta bachillerato.</p>
+                        </div>
+                    </div>
+                    <div class="md:grid md:grid-cols-2 md:gap-x-12 relative">
+                        <div class="md:text-right">
+                            <div class="bg-custom-yellow w-12 h-12 rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto md:mr-0 md:ml-auto mb-4">3</div>
+                            <h3 class="text-xl font-bold">Fase 3: Implementación</h3>
+                            <p class="text-gray-700 mt-2">Ejecución de talleres y actividades en las escuelas. Capacitación a docentes y sesiones con padres y estudiantes.</p>
+                        </div>
+                        <div></div>
+                    </div>
+                    <div class="md:grid md:grid-cols-2 md:gap-x-12 relative">
+                        <div></div>
+                        <div>
+                            <div class="bg-custom-pink w-12 h-12 rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto md:ml-0 md:mr-auto mb-4">4</div>
+                            <h3 class="text-xl font-bold">Fase 4: Evaluación y Sostenibilidad</h3>
+                            <p class="text-gray-700 mt-2">Análisis de resultados, informe de impacto y planificación para la institucionalización y expansión del programa.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="benefits" class="my-12">
+            <h2 class="text-3xl font-bold text-center mb-8">Beneficios Para Toda la Comunidad</h2>
+            <p class="max-w-3xl mx-auto text-center text-gray-700 mb-8">"Creciendo Sanos" está diseñado para crear un círculo virtuoso de bienestar, donde cada participante se beneficia directamente y contribuye al éxito del programa.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="font-bold text-xl mb-2">Para el IVSS y su Unidad de Nutrición</h3>
+                    <p class="text-gray-600">Este proyecto fortalecerá el liderazgo y el rol de la institución en el ámbito de la salud pública. Permitirá a la clínica generar datos y evidencia directa de una intervención exitosa en su área de influencia, consolidando su reputación como un agente de cambio proactivo en la comunidad.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="font-bold text-xl mb-2">Para las Instituciones Educativas Involucradas</h3>
+                    <p class="text-gray-600">Este programa está diseñado para potenciar a las escuelas como entornos promotores de la salud. Les proporcionará las herramientas necesarias para abordar el bienestar nutricional de los estudiantes de manera integral, fortaleciendo la colaboración entre el personal escolar, los padres y la comunidad para crear un ambiente de aprendizaje más saludable.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="font-bold text-xl mb-2">Para los Estudiantes</h3>
+                    <p class="text-gray-600">Adquirirán conocimientos y habilidades prácticas para tomar decisiones saludables sobre su alimentación. Esto se traducirá en una mejora de su estado nutricional, mayor energía y concentración para el aprendizaje, y la prevención de enfermedades crónicas a futuro.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="font-bold text-xl mb-2">Para los Docentes y Personal Escolar</h3>
+                    <p class="text-gray-600">Recibírán capacitación especializada para integrar la nutrición en su currículo diario. Esto no solo enriquecerá su práctica pedagógica, sino que también los convertirá en agentes de cambio, capaces de influir positivamente en la salud de las futuras generaciones.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="font-bold text-xl mb-2">Para los Padres y Representantes</h3>
+                    <p class="text-gray-600">Serán incluidos en el proceso educativo, recibiendo herramientas y estrategias para preparar comidas saludables y crear un entorno familiar que promueva hábitos de vida correctos. Esto fortalecerá el núcleo familiar y asegurará que los conocimientos adquiridos en la escuela se refuercen en casa.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-dark-blue text-white text-center py-6 mt-12 no-print">
+        <p class="font-bold text-gray-200">Una iniciativa de la Unidad de Nutrición del IVSS Clínica Popular Tipo I Santa Rita.</p>
+        <p class="text-sm text-gray-400 mt-1">Juntos por un futuro más saludable.</p>
+    </footer>
+</body>
+</html>
